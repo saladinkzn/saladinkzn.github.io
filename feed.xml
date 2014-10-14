@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>JBake</title>
-    <link>http://jbake.org</link>
-    <atom:link href="http://jbake.org/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://saladinkzn.github.io/</link>
+    <atom:link href="http://saladinkzn.github.io//feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Ср, 15 окт 2014 00:05:26 +0400</pubDate>
-    <lastBuildDate>Ср, 15 окт 2014 00:05:26 +0400</lastBuildDate>
+    <pubDate>Ср, 15 окт 2014 01:01:27 +0400</pubDate>
+    <lastBuildDate>Ср, 15 окт 2014 01:01:27 +0400</lastBuildDate>
 
     <item>
       <title>Шпаргалка GIT</title>
-      <link>http://jbake.org/blog/2014/first-post.html</link>
+      <link>http://saladinkzn.github.io//blog/2014/first-post.html</link>
       <pubDate>Вт, 14 окт 2014 00:00:00 +0400</pubDate>
       <guid isPermaLink="false">blog/2014/first-post.html</guid>
       	<description>
@@ -38,34 +38,67 @@
         Выводит список измененных файлов
     &lt;/dd&gt;
     &lt;dt&gt;
-        git diff ПУТЬ_ДО_ФАЙЛА
+        git diff
     &lt;/dt&gt;
     &lt;dd&gt;
-        Отображает текущие изменения в выбранном файле
+        Отображает разницу между двумя версиями файлов
+        &lt;dl&gt;
+            &lt;dt&gt;&lt;code&gt;git diff ФИКСАЦИЯ ФАЙЛ&lt;/code&gt;&lt;/dt&gt;
+            &lt;dd&gt;
+                Отображает разницу в между рабочей копией и фиксацией в файле&lt;br/&gt;
+                Значения по умолчанию: ФИКСАЦИЯ - HEAD, ФАЙЛ - .
+            &lt;/dd&gt;
+            &lt;dt&gt;&lt;code&gt;git diff ФИКСАЦИЯ1..ФИКСАЦИЯ2 ФАЙЛ&lt;/code&gt;&lt;/dt&gt;
+            &lt;dd&gt;
+                Отображает разницу между ФИКСАЦИЕЙ1 и ФИКСАЦИЕЙ2
+                Значений по умолчанию: ФИКСАЦИЯ1 - HEAD, ФИКСАЦИЯ2 - HEAD, ФАЙЛ - .
+            &lt;/dd&gt;
+            &lt;dt&gt;&lt;code&gt;git diff ФИКСАЦИЯ1...ФИКСАЦИЯ2 ФАЙЛ&lt;/code&gt;&lt;/dt&gt;э
+            &lt;dd&gt;
+                Отображает изменения, произошедшие в ФИКСКАЦИИ2, начиная с общего предка ФИКСАЦИИ1 и ФИКСАЦИИ2
+                Значения по умолчанию: ФИКСАЦИЯ1 - HEAD, ФИКСАЦИЯ2 - HEAD, ФАЙЛ - .
+            &lt;/dd&gt;
+        &lt;/dl&gt;
     &lt;/dd&gt;
     &lt;dt&gt;git log&lt;/dt&gt;
     &lt;dd&gt;
-        Отображает список последних фиксаций
+        Отображает список фиксаций в текующей ветке
         &lt;dl&gt;
+            &lt;dt&gt;&lt;em&gt;ВЕТКА&lt;/em&gt;&lt;/dt&gt;
+            &lt;dd&gt;Отображает список фиксаций в ВЕТКЕ&lt;/dd&gt;
+            &lt;dt&gt;&lt;em&gt;ВЕТКА1..ВЕТКА2&lt;/em&gt;&lt;/dt&gt;
+            &lt;dd&gt;Отображает список фиксаций в ВЕТКЕ2, которых нет в ВЕТКЕ1&lt;/dd&gt;
             &lt;dt&gt;&lt;code&gt;--graph&lt;/code&gt;&lt;/dt&gt;
             &lt;dd&gt;Меняет отображение на отображение в виде графа&lt;/dd&gt;
+            &lt;dt&gt;&lt;code&gt;--oneline&lt;/code&gt;&lt;/dt&gt;
+            &lt;dd&gt;
+                Меняет отображение на отображение в однострочном виде, удобно для дальнейшей машинной обработки
+                &lt;pre&gt;
+a123123 Some changes
+ade2132 Init commit&lt;/pre&gt;
+            &lt;/dd&gt;
+            &lt;dt&gt;&lt;code&gt;-КОЛИЧЕСТВО&lt;/code&gt;&lt;/dt&gt;
+            &lt;dd&gt;Отображает количество отображаемых фиксаций&lt;/dd&gt;
         &lt;/dl&gt;
     &lt;/dd&gt;
+    &lt;dt&gt;git commit -m &quot;сообщение&quot;&lt;/dt&gt;
     &lt;dd&gt;
-        Отображает граф последних фиксаций
+        Фиксирует добавленные изменения в текущей ветке
+        &lt;dl&gt;
+            &lt;dt&gt;&lt;code&gt;--amend&lt;/code&gt;&lt;/dt&gt;
+            &lt;dd&gt;Не создаёт новую фиксацию, а дополняет предыдущую&lt;/dd&gt;
+        &lt;/dl&gt;
     &lt;/dd&gt;
-    &lt;dt&gt;git commit -a -m &quot;сообщение&quot;&lt;/dt&gt;
-    &lt;dd&gt;
-        фиксирует все изменения в текущей ветке&lt;br/&gt;
-        добавив &lt;code&gt;--amend&lt;/code&gt; можно не создавать новую фиксацию, а дополнять предыдущую
-    &lt;/dd&gt;
-    &lt;dt&gt;git checkout -b НАЗВАНИЕ_ВЕТКИ&lt;/dt&gt;
-    &lt;dd&gt;
-        создает новую ветку и переключается в неё
-    &lt;/dd&gt;
+
     &lt;dt&gt;git checkout НАЗВАНИЕ_ВЕТКИ&lt;/dt&gt;
     &lt;dd&gt;
         Переключается в существующую ветку
+        &lt;dl&gt;
+            &lt;dt&gt;&lt;code&gt;-b&lt;/code&gt;&lt;/dt&gt;
+            &lt;dd&gt;Создает новую ветку&lt;/dd&gt;
+            &lt;dt&gt;&lt;code&gt;-- ФАЙЛ&lt;/code&gt;&lt;/dt&gt;
+            &lt;dd&gt;Переключает определенные файлы, а не всю рабочую копию&lt;/dd&gt;
+        &lt;/dl&gt;
     &lt;/dd&gt;
     &lt;dt&gt;git merge НАЗВАНИЕ_ВЕТКИ&lt;/dt&gt;
     &lt;dd&gt;
@@ -79,6 +112,15 @@
     &lt;dd&gt;
         Отменяет текущее слияние
     &lt;/dd&gt;
+    &lt;dt&gt;git rebase&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;dl&gt;
+            &lt;dt&gt;&lt;code&gt;git rebase АПСТРИМ ВЕТКА&lt;/code&gt;&lt;/dt&gt;
+            &lt;dl&gt;Сохраняет фиксации, которых нет в АПСТРИМЕ во временную область, сбрасывает текущее состояние к АПСТРИМУ,
+                а затем применяет фиксации поверх АПСТРИМА.
+            &lt;/dl&gt;
+        &lt;/dl&gt;
+    &lt;/dd&gt;
     &lt;dt&gt;git push КУДА НАЗВАНИЕ_ВЕТКИ&lt;/dt&gt;
     &lt;dd&gt;
         Проталкивает изменения из локального репозитория во внешний
@@ -91,6 +133,10 @@
     &lt;dt&gt;git pull ОТКУДА&lt;/dt&gt;
     &lt;dd&gt;
         Забирает изменения из внешнего репозитория и пытается автоматичски выполнить слияние
+        &lt;dl&gt;
+            &lt;dt&gt;&lt;code&gt;--rebase&lt;/code&gt;&lt;/dt&gt;
+            &lt;dd&gt;Выполняет &lt;code&gt;git rebase&lt;/code&gt; вместо &lt;code&gt;git merge&lt;/code&gt; после fetch&apos;а&lt;/dd&gt;
+        &lt;/dl&gt;
     &lt;/dd&gt;
 &lt;/dl&gt;
 
