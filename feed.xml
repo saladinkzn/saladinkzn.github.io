@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JBake</title>
+    <link>http://jbake.org</link>
+    <atom:link href="http://jbake.org/feed.xml" rel="self" type="application/rss+xml" />
+    <description>JBake Bootstrap Template</description>
+    <language>en-gb</language>
+    <pubDate>Ср, 15 окт 2014 00:05:26 +0400</pubDate>
+    <lastBuildDate>Ср, 15 окт 2014 00:05:26 +0400</lastBuildDate>
+
+    <item>
+      <title>Шпаргалка GIT</title>
+      <link>http://jbake.org/blog/2014/first-post.html</link>
+      <pubDate>Вт, 14 окт 2014 00:00:00 +0400</pubDate>
+      <guid isPermaLink="false">blog/2014/first-post.html</guid>
+      	<description>
+	
+&lt;dl&gt;
+    &lt;dt&gt;git init&lt;/dt&gt;
+    &lt;dd&gt;
+        Создание репозитория в текущей папке
+    &lt;/dd&gt;
+    &lt;dt&gt;git clone ПУТЬ&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;p&gt;
+            Копирует существующий репозиторий, находящийся по указанному пути
+        &lt;/p&gt;
+        &lt;h3&gt;
+            Пример.
+        &lt;/h3&gt;
+        &lt;code&gt;git clone git@github.com:saladinkzn/quantum.git&lt;/code&gt;
+    &lt;/dd&gt;
+    &lt;dt&gt;
+        git status
+    &lt;/dt&gt;
+    &lt;dd&gt;
+        Выводит список измененных файлов
+    &lt;/dd&gt;
+    &lt;dt&gt;
+        git diff ПУТЬ_ДО_ФАЙЛА
+    &lt;/dt&gt;
+    &lt;dd&gt;
+        Отображает текущие изменения в выбранном файле
+    &lt;/dd&gt;
+    &lt;dt&gt;git log&lt;/dt&gt;
+    &lt;dd&gt;
+        Отображает список последних фиксаций
+        &lt;dl&gt;
+            &lt;dt&gt;&lt;code&gt;--graph&lt;/code&gt;&lt;/dt&gt;
+            &lt;dd&gt;Меняет отображение на отображение в виде графа&lt;/dd&gt;
+        &lt;/dl&gt;
+    &lt;/dd&gt;
+    &lt;dd&gt;
+        Отображает граф последних фиксаций
+    &lt;/dd&gt;
+    &lt;dt&gt;git commit -a -m &quot;сообщение&quot;&lt;/dt&gt;
+    &lt;dd&gt;
+        фиксирует все изменения в текущей ветке&lt;br/&gt;
+        добавив &lt;code&gt;--amend&lt;/code&gt; можно не создавать новую фиксацию, а дополнять предыдущую
+    &lt;/dd&gt;
+    &lt;dt&gt;git checkout -b НАЗВАНИЕ_ВЕТКИ&lt;/dt&gt;
+    &lt;dd&gt;
+        создает новую ветку и переключается в неё
+    &lt;/dd&gt;
+    &lt;dt&gt;git checkout НАЗВАНИЕ_ВЕТКИ&lt;/dt&gt;
+    &lt;dd&gt;
+        Переключается в существующую ветку
+    &lt;/dd&gt;
+    &lt;dt&gt;git merge НАЗВАНИЕ_ВЕТКИ&lt;/dt&gt;
+    &lt;dd&gt;
+        Осуществляет слияние веток: изменения из указанной ветки попадают в текущую
+    &lt;/dd&gt;
+    &lt;dt&gt;git mergetool&lt;/dt&gt;
+    &lt;dd&gt;
+        Вызывает внешний инструмент для разрешения конфликтов слияния
+    &lt;/dd&gt;
+    &lt;dt&gt;git merge --abort&lt;/dt&gt;
+    &lt;dd&gt;
+        Отменяет текущее слияние
+    &lt;/dd&gt;
+    &lt;dt&gt;git push КУДА НАЗВАНИЕ_ВЕТКИ&lt;/dt&gt;
+    &lt;dd&gt;
+        Проталкивает изменения из локального репозитория во внешний
+    &lt;/dd&gt;
+    &lt;dt&gt;git fetch ОТКУДА&lt;/dt&gt;
+    &lt;dd&gt;
+        Забирает изменения из внешнего репозитория&lt;br/&gt;
+        Если параметр не указан — вместо ОТКУДА подставляется origin (т.е. репозиторий, из которого был выполнен clone)
+    &lt;/dd&gt;
+    &lt;dt&gt;git pull ОТКУДА&lt;/dt&gt;
+    &lt;dd&gt;
+        Забирает изменения из внешнего репозитория и пытается автоматичски выполнить слияние
+    &lt;/dd&gt;
+&lt;/dl&gt;
+
+
+
+
+
+	</description>
+    </item>
+
+  </channel> 
+</rss>

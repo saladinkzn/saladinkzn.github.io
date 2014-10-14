@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>JBake</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/asciidoctor.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link href="css/prettify.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="favicon.ico">
+</head>
+<body onload="prettyPrint()">
+<div id="wrap">
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="">JBake</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="feed.xml">Subscribe</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>    <div class="container">
+    <div class="page-header">
+        <h1>Sala Blog</h1>
+    </div>
+        <a href="blog/2014/first-post.html"><h1>Шпаргалка GIT</h1></a>
+        <p>14 октября 2014</p>
+        <p>
+<dl>
+    <dt>git init</dt>
+    <dd>
+        Создание репозитория в текущей папке
+    </dd>
+    <dt>git clone ПУТЬ</dt>
+    <dd>
+        <p>
+            Копирует существующий репозиторий, находящийся по указанному пути
+        </p>
+        <h3>
+            Пример.
+        </h3>
+        <code>git clone git@github.com:saladinkzn/quantum.git</code>
+    </dd>
+    <dt>
+        git status
+    </dt>
+    <dd>
+        Выводит список измененных файлов
+    </dd>
+    <dt>
+        git diff ПУТЬ_ДО_ФАЙЛА
+    </dt>
+    <dd>
+        Отображает текущие изменения в выбранном файле
+    </dd>
+    <dt>git log</dt>
+    <dd>
+        Отображает список последних фиксаций
+        <dl>
+            <dt><code>--graph</code></dt>
+            <dd>Меняет отображение на отображение в виде графа</dd>
+        </dl>
+    </dd>
+    <dd>
+        Отображает граф последних фиксаций
+    </dd>
+    <dt>git commit -a -m "сообщение"</dt>
+    <dd>
+        фиксирует все изменения в текущей ветке<br/>
+        добавив <code>--amend</code> можно не создавать новую фиксацию, а дополнять предыдущую
+    </dd>
+    <dt>git checkout -b НАЗВАНИЕ_ВЕТКИ</dt>
+    <dd>
+        создает новую ветку и переключается в неё
+    </dd>
+    <dt>git checkout НАЗВАНИЕ_ВЕТКИ</dt>
+    <dd>
+        Переключается в существующую ветку
+    </dd>
+    <dt>git merge НАЗВАНИЕ_ВЕТКИ</dt>
+    <dd>
+        Осуществляет слияние веток: изменения из указанной ветки попадают в текущую
+    </dd>
+    <dt>git mergetool</dt>
+    <dd>
+        Вызывает внешний инструмент для разрешения конфликтов слияния
+    </dd>
+    <dt>git merge --abort</dt>
+    <dd>
+        Отменяет текущее слияние
+    </dd>
+    <dt>git push КУДА НАЗВАНИЕ_ВЕТКИ</dt>
+    <dd>
+        Проталкивает изменения из локального репозитория во внешний
+    </dd>
+    <dt>git fetch ОТКУДА</dt>
+    <dd>
+        Забирает изменения из внешнего репозитория<br/>
+        Если параметр не указан — вместо ОТКУДА подставляется origin (т.е. репозиторий, из которого был выполнен clone)
+    </dd>
+    <dt>git pull ОТКУДА</dt>
+    <dd>
+        Забирает изменения из внешнего репозитория и пытается автоматичски выполнить слияние
+    </dd>
+</dl>
+
+
+
+
+</p>
+    <hr />
+    <p>Older posts are available in the <a href="/archive.html">archive</a>.</p>
+    </div>
+    <div id="push"></div>
+</div>
+
+<div id="footer">
+    <div class="container">
+        <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.0</a></p>
+    </div>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/prettify.js"></script>
+
+</body>
+</html>
