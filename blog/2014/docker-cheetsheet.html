@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Sala Blog. Blog about git, Java, Gradle and other stuff</title>
+    <title>Шпаргалка Docker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -11,14 +10,14 @@
     <meta name="generator" content="JBake">
 
     <!-- Le styles -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/asciidoctor.css" rel="stylesheet">
-        <link href="css/base.css" rel="stylesheet">
-        <link href="css/prettify.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/asciidoctor.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link href="../../css/prettify.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-    <script src="js/html5shiv.min.js"></script>
+    <script src="../../js/html5shiv.min.js"></script>
     <![endif]-->
 
     <!-- Fav and touch icons -->
@@ -26,7 +25,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="../../favicon.ico">
 </head>
 <body onload="prettyPrint()">
 <div id="wrap">
@@ -40,23 +39,24 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="">Sala Blog</a>
+            <a class="navbar-brand" href="../../">Sala Blog</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="feed.xml">Subscribe</a></li>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../about.html">About</a></li>
+                <li><a href="../../feed.xml">Subscribe</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </div>    <div class="container">
     <div class="page-header">
-        <h1>Sala Blog</h1>
+        <h1>Шпаргалка Docker</h1>
     </div>
-        <a href="blog/2014/docker-cheetsheet.html"><h1>Шпаргалка Docker</h1></a>
-        <p>22 October 2014</p>
-        <p><h3>Создание образа</h3>
+
+    <p><em>22 October 2014</em></p>
+
+    <p><h3>Создание образа</h3>
 <ul>
   <li><p><code>docker pull ОБРАЗ</code> - загружает образ из Docker Hub (аналог GitHub для Docker)</p></li>
   <li><p><code>docker build ПУТЬ | URL</code> - создает образ с помощью Dockerfile<br/><strong>Параметры:</strong></p>
@@ -123,139 +123,8 @@
   <li><p><code>USER имя</code> - позволяет задавать имя пользователя или UID, который будет использован для запуска образа, а так же для любой из инструкций <code>RUN</code></p></li>
   <li><p><code>WORKDIR ПУТЬ</code> - задает рабочую директорию для команд <code>RUN</code>, <code>CMD</code> и <code>ENTRYPOINT</code>. Инструкция может быть использована несколько раз. Если ПУТЬ относителен, то он будет относительным для ПУТИ, заданным предыдущей инструкцией <code>WORKDIR</code>.</p></li>
 </ul><p>-----------------------------<br/>Образ - image<br/>Контейнер - container</p></p>
-        <a href="blog/2014/first-post.html"><h1>Шпаргалка GIT</h1></a>
-        <p>14 October 2014</p>
-        <p>
-<dl>
-    <dt>git init</dt>
-    <dd>
-        Создание репозитория в текущей папке
-    </dd>
-    <dt>git clone ПУТЬ</dt>
-    <dd>
-        <p>
-            Копирует существующий репозиторий, находящийся по указанному пути
-        </p>
-        <h3>
-            Пример.
-        </h3>
-        <code>git clone git@github.com:saladinkzn/quantum.git</code>
-    </dd>
-    <dt>
-        git status
-    </dt>
-    <dd>
-        Выводит список измененных файлов
-    </dd>
-    <dt>
-        git diff
-    </dt>
-    <dd>
-        Отображает разницу между двумя версиями файлов
-        <dl>
-            <dt><code>git diff ФИКСАЦИЯ ФАЙЛ</code></dt>
-            <dd>
-                Отображает разницу в между рабочей копией и фиксацией в файле<br/>
-                Значения по умолчанию: ФИКСАЦИЯ - HEAD, ФАЙЛ - .
-            </dd>
-            <dt><code>git diff ФИКСАЦИЯ1..ФИКСАЦИЯ2 ФАЙЛ</code></dt>
-            <dd>
-                Отображает разницу между ФИКСАЦИЕЙ1 и ФИКСАЦИЕЙ2
-                Значений по умолчанию: ФИКСАЦИЯ1 - HEAD, ФИКСАЦИЯ2 - HEAD, ФАЙЛ - .
-            </dd>
-            <dt><code>git diff ФИКСАЦИЯ1...ФИКСАЦИЯ2 ФАЙЛ</code></dt>
-            <dd>
-                Отображает изменения, произошедшие в ФИКСКАЦИИ2, начиная с общего предка ФИКСАЦИИ1 и ФИКСАЦИИ2
-                Значения по умолчанию: ФИКСАЦИЯ1 - HEAD, ФИКСАЦИЯ2 - HEAD, ФАЙЛ - .
-            </dd>
-        </dl>
-    </dd>
-    <dt>git log</dt>
-    <dd>
-        Отображает список фиксаций в текующей ветке
-        <dl>
-            <dt><em>ВЕТКА</em></dt>
-            <dd>Отображает список фиксаций в ВЕТКЕ</dd>
-            <dt><em>ВЕТКА1..ВЕТКА2</em></dt>
-            <dd>Отображает список фиксаций в ВЕТКЕ2, которых нет в ВЕТКЕ1</dd>
-            <dt><code>--graph</code></dt>
-            <dd>Меняет отображение на отображение в виде графа</dd>
-            <dt><code>--oneline</code></dt>
-            <dd>
-                Меняет отображение на отображение в однострочном виде, удобно для дальнейшей машинной обработки
-                <pre>
-a123123 Some changes
-ade2132 Init commit</pre>
-            </dd>
-            <dt><code>-КОЛИЧЕСТВО</code></dt>
-            <dd>Отображает количество отображаемых фиксаций</dd>
-        </dl>
-    </dd>
-    <dt>git commit -m "сообщение"</dt>
-    <dd>
-        Фиксирует добавленные изменения в текущей ветке
-        <dl>
-            <dt><code>--amend</code></dt>
-            <dd>Не создаёт новую фиксацию, а дополняет предыдущую</dd>
-        </dl>
-    </dd>
 
-    <dt>git checkout НАЗВАНИЕ_ВЕТКИ</dt>
-    <dd>
-        Переключается в существующую ветку
-        <dl>
-            <dt><code>-b</code></dt>
-            <dd>Создает новую ветку</dd>
-            <dt><code>-- ФАЙЛ</code></dt>
-            <dd>Переключает определенные файлы, а не всю рабочую копию</dd>
-        </dl>
-    </dd>
-    <dt>git merge НАЗВАНИЕ_ВЕТКИ</dt>
-    <dd>
-        Осуществляет слияние веток: изменения из указанной ветки попадают в текущую
-    </dd>
-    <dt>git mergetool</dt>
-    <dd>
-        Вызывает внешний инструмент для разрешения конфликтов слияния
-    </dd>
-    <dt>git merge --abort</dt>
-    <dd>
-        Отменяет текущее слияние
-    </dd>
-    <dt>git rebase</dt>
-    <dd>
-        <dl>
-            <dt><code>git rebase АПСТРИМ ВЕТКА</code></dt>
-            <dl>Сохраняет фиксации, которых нет в АПСТРИМЕ во временную область, сбрасывает текущее состояние к АПСТРИМУ,
-                а затем применяет фиксации поверх АПСТРИМА.
-            </dl>
-        </dl>
-    </dd>
-    <dt>git push КУДА НАЗВАНИЕ_ВЕТКИ</dt>
-    <dd>
-        Проталкивает изменения из локального репозитория во внешний
-    </dd>
-    <dt>git fetch ОТКУДА</dt>
-    <dd>
-        Забирает изменения из внешнего репозитория<br/>
-        Если параметр не указан — вместо ОТКУДА подставляется origin (т.е. репозиторий, из которого был выполнен clone)
-    </dd>
-    <dt>git pull ОТКУДА</dt>
-    <dd>
-        Забирает изменения из внешнего репозитория и пытается автоматичски выполнить слияние
-        <dl>
-            <dt><code>--rebase</code></dt>
-            <dd>Выполняет <code>git rebase</code> вместо <code>git merge</code> после fetch'а</dd>
-        </dl>
-    </dd>
-</dl>
-
-
-
-
-</p>
     <hr />
-    <p>Older posts are available in the <a href="/archive.html">archive</a>.</p>
     </div>
     <div id="push"></div>
 </div>
@@ -269,9 +138,9 @@ ade2132 Init commit</pre>
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/prettify.js"></script>
+<script src="../../js/jquery-1.11.1.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/prettify.js"></script>
 
 </body>
 </html>
