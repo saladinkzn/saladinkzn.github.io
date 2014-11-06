@@ -6,13 +6,40 @@
     <atom:link href="http://saladinkzn.github.io//feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Wed, 22 Oct 2014 09:10:29 +0400</pubDate>
-    <lastBuildDate>Wed, 22 Oct 2014 09:10:29 +0400</lastBuildDate>
+    <pubDate>Пт, 7 ноя 2014 02:00:20 +0400</pubDate>
+    <lastBuildDate>Пт, 7 ноя 2014 02:00:20 +0400</lastBuildDate>
 
+    <item>
+      <title>Augmentor task</title>
+      <link>http://saladinkzn.github.io//blog/2014/augmentor.html</link>
+      <pubDate>Чт, 6 ноя 2014 00:00:00 +0400</pubDate>
+      <guid isPermaLink="false">blog/2014/augmentor.html</guid>
+      	<description>
+	&lt;p&gt;Augmentor - это специальная таска для Gradle, которая нужна чтобы упростить жизнь разработчика. Augmentor позволяет оптимизировать рутинные операции, связанные с вызовом различных градловых тасок (&lt;code&gt;gradle check&lt;/code&gt;, &lt;code&gt;gradle installDebug&lt;/code&gt;, &lt;code&gt;gradle build&lt;/code&gt;). Она позволяет вызывать задачу с помощью простого нажатия кнопки &lt;code&gt;ENTER&lt;/code&gt;, а также умеет перезапускать задачу при изменениях в исходном коде.&lt;/p&gt;&lt;h4&gt;Использование&lt;/h4&gt;&lt;p&gt;Во-первых, необходимо подключить библиотеку с таской. Для этого необходимо добавить или отредактировать секцию &lt;code&gt;buildscript&lt;/code&gt;, приведя её в соответствие с указанной ниже:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;buildscript {
+    repositories {
+       maven { url &amp;#39;http://oss.jfrog.org/artifactory/oss-snapshot-local&amp;#39; }
+    }
+
+    dependencies {
+       classpath &amp;#39;ru.shadam.augmentor:augmentor:0.1-SNAPSHOT&amp;#39;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Затем, необходимо создать новый таск, используя подключенный AugmentorTask, например:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;task re-build(type: ru.shadam.augmentor.AugmentorTask) {
+    innerTask = &amp;#39;build&amp;#39; // name of gradle augmentor task
+    // Optional parameters:
+    scanInterval = 10 // source changed throttling, -1 to disable, 0 for no throttling
+    srcDirs = [ file(&amp;#39;src/main/java&amp;#39;) ] // list of directories to watch, project.sourceSets.main by default
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Таким образом, мы получаем таск re-build, который можно запускать с помощью &lt;code&gt;gradle re-build&lt;/code&gt;. Он будет следить за&lt;br/&gt;изменениями в папке src/main/java и вызывать &lt;code&gt;gradle build&lt;/code&gt; в случае обнаружения таковых.&lt;/p&gt;
+&lt;hr/&gt;&lt;p&gt;&lt;a href=&quot;http://github.com/saladinkzn/augmentor&quot;&gt;Ссылка на проект&lt;/a&gt;&lt;/p&gt;
+	</description>
+    </item>
     <item>
       <title>Шпаргалка Docker</title>
       <link>http://saladinkzn.github.io//blog/2014/docker-cheetsheet.html</link>
-      <pubDate>Wed, 22 Oct 2014 00:00:00 +0400</pubDate>
+      <pubDate>Ср, 22 окт 2014 00:00:00 +0400</pubDate>
       <guid isPermaLink="false">blog/2014/docker-cheetsheet.html</guid>
       	<description>
 	&lt;h3&gt;Создание образа&lt;/h3&gt;
@@ -76,9 +103,9 @@
   &lt;li&gt;&lt;p&gt;&lt;code&gt;CMD [&amp;quot;исполняемый файл&amp;quot;, &amp;quot;параметр1&amp;quot;, &amp;quot;параметр2&amp;quot;]&lt;/code&gt; | &lt;code&gt;CMD [&amp;quot;параметр1&amp;quot;, &amp;quot;параметр2&amp;quot;]&lt;/code&gt; | &lt;code&gt;CMD команда параметр1 параметр2&lt;/code&gt; - Предоставляет значения по умолчанию для запуска контейнера. Эти значения могут как включать исполняемый файл (варианты 1, 3), так и не включать его (вариант 2). В последнем случае запускаемая команда&lt;br/&gt;должна быть задана с помощью инструкции &lt;code&gt;ENTRYPOINT&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
   &lt;li&gt;&lt;p&gt;&lt;code&gt;EXPOSE порт &amp;lt;порт...&amp;gt;&lt;/code&gt; - Информирует Docker, что контейнер будет прослушивать указанные порты во время исполнения. Docker может использовать эту информацию, чтобы соединять контейнеры между собой используя связи. &lt;code&gt;EXPOSE&lt;/code&gt; сам по себе не делает порт доступным из хостовой системы. Для того, чтобы открыть порты в хостовую систему следует использовать флаг &lt;code&gt;-p&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
   &lt;li&gt;&lt;p&gt;&lt;code&gt;ENV ключ значение&lt;/code&gt; - Позволяет задавать переменные окружения. Эти переменные будут использованы при запуске контейнера из собранного образа. Могут быть просмотрены с помощью команды &lt;code&gt;docker inspect&lt;/code&gt;, а также переопределены с помощью флага &lt;code&gt;--env&lt;/code&gt; команды &lt;code&gt;docker run&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;ADD ОТКУДА &amp;lt;ОТКУДА...&amp;gt; КУДА&lt;/code&gt; - Используется для добавления новых файлов, директорий или ссылок на удалённые файлы в файловую систему контейнера. Несколько ОТКУДА может быть передано одновременно, но в этом случае все адреса должны быть относительны для директории, из которой происходит сборка. Каждый вхождение ОТКУДА может содержать&lt;br/&gt;один или несколько символов подстановки, которые будут разрешены с использование функции языка Go filepath.Match. КУДА должен быть абсолютным путем внутри контейнера.&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;ENTRYPOINT [&amp;quot;исполняемый файл&amp;quot;, &amp;quot;параметр1&amp;quot;, &amp;quot;параметр2&amp;quot;]&lt;/code&gt; | &lt;code&gt;ENTRYPOINT команда параметр1 параметр2&lt;/code&gt; - позволяет сконфигурировать контейнер так, чтобы он запускался как исполняемый&lt;br/&gt;файл. В отличии от команды &lt;code&gt;CMD&lt;/code&gt; значение не будет переопределено аргументами, переданными в команду &lt;code&gt;docker run&lt;/code&gt;. Таким образом, аргументы из команды &lt;code&gt;docker run&lt;/code&gt; будут переданы внутрь&lt;br/&gt;контейнера, т.е. &lt;code&gt;docker run ОБРАЗ -d&lt;/code&gt; передаст -d исполняемому файлу.&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;VOLUME [ПУТЬ]&lt;/code&gt; - создает точку монтирования с указанным именем и помечает её как содержащую подмонтированные разделы из хостовой системы или других контейнеров. Значение может быть&lt;br/&gt;задано как массив JSON, например, &lt;code&gt;VOLUME [&amp;quot;/var/log/&amp;quot;]&lt;/code&gt;, так и как обычной строкой с одним или несколькими аргументами, например &lt;code&gt;VOLUME /var/log&lt;/code&gt; или &lt;code&gt;VOLUME /var/log /var/db&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;ADD ОТКУДА &amp;lt;ОТКУДА...&amp;gt; КУДА&lt;/code&gt; - Используется для добавления новых файлов, директорий или ссылок на удалённые файлы в файловую систему контейнера. Несколько ОТКУДА может быть передано одновременно, но в этом случае все адреса должны быть относительны для директории, из которой происходит сборка. Каждый вхождение ОТКУДА может содержатьодин или несколько символов подстановки, которые будут разрешены с использование функции языка Go filepath.Match. КУДА должен быть абсолютным путем внутри контейнера.&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;ENTRYPOINT [&amp;quot;исполняемый файл&amp;quot;, &amp;quot;параметр1&amp;quot;, &amp;quot;параметр2&amp;quot;]&lt;/code&gt; | &lt;code&gt;ENTRYPOINT команда параметр1 параметр2&lt;/code&gt; - позволяет сконфигурировать контейнер так, чтобы он запускался как исполняемый файл. В отличии от команды &lt;code&gt;CMD&lt;/code&gt; значение не будет переопределено аргументами, переданными в команду &lt;code&gt;docker run&lt;/code&gt;. Таким образом, аргументы из команды &lt;code&gt;docker run&lt;/code&gt; будут переданы внутрь контейнера, т.е. &lt;code&gt;docker run ОБРАЗ -d&lt;/code&gt; передаст -d исполняемому файлу.&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;VOLUME [ПУТЬ]&lt;/code&gt; - создает точку монтирования с указанным именем и помечает её как содержащую подмонтированные разделы из хостовой системы или других контейнеров. Значение может быть задано как массив JSON, например, &lt;code&gt;VOLUME [&amp;quot;/var/log/&amp;quot;]&lt;/code&gt;, так и как обычной строкой с одним или несколькими аргументами, например &lt;code&gt;VOLUME /var/log&lt;/code&gt; или &lt;code&gt;VOLUME /var/log /var/db&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
   &lt;li&gt;&lt;p&gt;&lt;code&gt;USER имя&lt;/code&gt; - позволяет задавать имя пользователя или UID, который будет использован для запуска образа, а так же для любой из инструкций &lt;code&gt;RUN&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
   &lt;li&gt;&lt;p&gt;&lt;code&gt;WORKDIR ПУТЬ&lt;/code&gt; - задает рабочую директорию для команд &lt;code&gt;RUN&lt;/code&gt;, &lt;code&gt;CMD&lt;/code&gt; и &lt;code&gt;ENTRYPOINT&lt;/code&gt;. Инструкция может быть использована несколько раз. Если ПУТЬ относителен, то он будет относительным для ПУТИ, заданным предыдущей инструкцией &lt;code&gt;WORKDIR&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;p&gt;-----------------------------&lt;br/&gt;Образ - image&lt;br/&gt;Контейнер - container&lt;/p&gt;
@@ -87,7 +114,7 @@
     <item>
       <title>Шпаргалка GIT</title>
       <link>http://saladinkzn.github.io//blog/2014/first-post.html</link>
-      <pubDate>Tue, 14 Oct 2014 00:00:00 +0400</pubDate>
+      <pubDate>Вт, 14 окт 2014 00:00:00 +0400</pubDate>
       <guid isPermaLink="false">blog/2014/first-post.html</guid>
       	<description>
 	
