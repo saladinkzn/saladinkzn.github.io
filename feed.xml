@@ -6,36 +6,9 @@
     <atom:link href="http://saladinkzn.github.io//feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Пт, 7 ноя 2014 02:00:20 +0400</pubDate>
-    <lastBuildDate>Пт, 7 ноя 2014 02:00:20 +0400</lastBuildDate>
+    <pubDate>Пт, 8 апр 2016 00:33:54 +0300</pubDate>
+    <lastBuildDate>Пт, 8 апр 2016 00:33:54 +0300</lastBuildDate>
 
-    <item>
-      <title>Augmentor task</title>
-      <link>http://saladinkzn.github.io//blog/2014/augmentor.html</link>
-      <pubDate>Чт, 6 ноя 2014 00:00:00 +0400</pubDate>
-      <guid isPermaLink="false">blog/2014/augmentor.html</guid>
-      	<description>
-	&lt;p&gt;Augmentor - это специальная таска для Gradle, которая нужна чтобы упростить жизнь разработчика. Augmentor позволяет оптимизировать рутинные операции, связанные с вызовом различных градловых тасок (&lt;code&gt;gradle check&lt;/code&gt;, &lt;code&gt;gradle installDebug&lt;/code&gt;, &lt;code&gt;gradle build&lt;/code&gt;). Она позволяет вызывать задачу с помощью простого нажатия кнопки &lt;code&gt;ENTER&lt;/code&gt;, а также умеет перезапускать задачу при изменениях в исходном коде.&lt;/p&gt;&lt;h4&gt;Использование&lt;/h4&gt;&lt;p&gt;Во-первых, необходимо подключить библиотеку с таской. Для этого необходимо добавить или отредактировать секцию &lt;code&gt;buildscript&lt;/code&gt;, приведя её в соответствие с указанной ниже:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;buildscript {
-    repositories {
-       maven { url &amp;#39;http://oss.jfrog.org/artifactory/oss-snapshot-local&amp;#39; }
-    }
-
-    dependencies {
-       classpath &amp;#39;ru.shadam.augmentor:augmentor:0.1-SNAPSHOT&amp;#39;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Затем, необходимо создать новый таск, используя подключенный AugmentorTask, например:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;task re-build(type: ru.shadam.augmentor.AugmentorTask) {
-    innerTask = &amp;#39;build&amp;#39; // name of gradle augmentor task
-    // Optional parameters:
-    scanInterval = 10 // source changed throttling, -1 to disable, 0 for no throttling
-    srcDirs = [ file(&amp;#39;src/main/java&amp;#39;) ] // list of directories to watch, project.sourceSets.main by default
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Таким образом, мы получаем таск re-build, который можно запускать с помощью &lt;code&gt;gradle re-build&lt;/code&gt;. Он будет следить за&lt;br/&gt;изменениями в папке src/main/java и вызывать &lt;code&gt;gradle build&lt;/code&gt; в случае обнаружения таковых.&lt;/p&gt;
-&lt;hr/&gt;&lt;p&gt;&lt;a href=&quot;http://github.com/saladinkzn/augmentor&quot;&gt;Ссылка на проект&lt;/a&gt;&lt;/p&gt;
-	</description>
-    </item>
     <item>
       <title>Шпаргалка Docker</title>
       <link>http://saladinkzn.github.io//blog/2014/docker-cheetsheet.html</link>
@@ -44,71 +17,104 @@
       	<description>
 	&lt;h3&gt;Создание образа&lt;/h3&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;docker pull ОБРАЗ&lt;/code&gt; - загружает образ из Docker Hub (аналог GitHub для Docker)&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;docker build ПУТЬ | URL&lt;/code&gt; - создает образ с помощью Dockerfile&lt;br/&gt;&lt;strong&gt;Параметры:&lt;/strong&gt;&lt;/p&gt;
-  &lt;ul&gt;
-    &lt;li&gt;&lt;code&gt;-t&lt;/code&gt; | &lt;code&gt;--tag=&amp;quot;&amp;quot;&lt;/code&gt; - помечает созданный образ переданным названием (и, тэгом, если он будет передан)&lt;/li&gt;
-    &lt;li&gt;&lt;code&gt;--rm&lt;/code&gt; - Удаляет промежуточные контейнеры после успешной сборки (по умолчанию == true)&lt;/li&gt;
-  &lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;h3&gt;Управление образами&lt;/h3&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;docker pull ОБРАЗ&lt;/code&gt; - загружает образ из Docker Hub (аналог GitHub для Docker)&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code&gt;docker build ПУТЬ | URL&lt;/code&gt; - создает образ с помощью Dockerfile&lt;br/&gt;&lt;strong&gt;Параметры:&lt;/strong&gt;&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;-t&lt;/code&gt; | &lt;code&gt;--tag=&amp;quot;&amp;quot;&lt;/code&gt; - помечает созданный образ переданным названием (и, тэгом, если он будет передан)&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;--rm&lt;/code&gt; - Удаляет промежуточные контейнеры после успешной сборки (по умолчанию == true)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Управление образами&lt;/h3&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;docker rmi&lt;/code&gt; - Удаляет образ, образ не может быть удален, если существуют контейнеры (даже незапущенные), которые основаны&lt;br/&gt;на данном образе&lt;br/&gt;&lt;strong&gt;Параметры:&lt;/strong&gt;&lt;/p&gt;
-  &lt;ul&gt;
-    &lt;li&gt;&lt;code&gt;-f&lt;/code&gt; - позволяет удалить образ даже если на нём основаны контейнеры&lt;/li&gt;
-  &lt;/ul&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;docker images&lt;/code&gt; - Отображает список всех существующих образов&lt;br/&gt;&lt;strong&gt;Параметры:&lt;/strong&gt;&lt;/p&gt;
-  &lt;ul&gt;
-    &lt;li&gt;&lt;code&gt;-a&lt;/code&gt; | &lt;code&gt;--all&lt;/code&gt; - отображает все образы (по умолчанию не отображает промежуточные контейнеры)&lt;/li&gt;
-    &lt;li&gt;&lt;code&gt;-q&lt;/code&gt; - отображает только id образов, вместо таблицы&lt;/li&gt;
-  &lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;h3&gt;Запуск и остановка контейнеров&lt;/h3&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code&gt;docker rmi&lt;/code&gt; - Удаляет образ, образ не может быть удален, если существуют контейнеры (даже незапущенные), которые основаны&lt;br/&gt;на данном образе&lt;br/&gt;&lt;strong&gt;Параметры:&lt;/strong&gt;&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;-f&lt;/code&gt; - позволяет удалить образ даже если на нём основаны контейнеры&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code&gt;docker images&lt;/code&gt; - Отображает список всех существующих образов&lt;br/&gt;&lt;strong&gt;Параметры:&lt;/strong&gt;&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;-a&lt;/code&gt; | &lt;code&gt;--all&lt;/code&gt; - отображает все образы (по умолчанию не отображает промежуточные контейнеры)&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;-q&lt;/code&gt; - отображает только id образов, вместо таблицы&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Запуск и остановка контейнеров&lt;/h3&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;docker run ОБРАЗ [КОМАНДА + АРГУМЕНТЫ]&lt;/code&gt; - Запускает выбранный образ в новом контейнере&lt;br/&gt;&lt;strong&gt;Параметры:&lt;/strong&gt;&lt;/p&gt;
-  &lt;ul&gt;
-    &lt;li&gt;&lt;code&gt;-d&lt;/code&gt; | &lt;code&gt;--detach&lt;/code&gt; - запускает контейнер в фоновом режиме и выводит только id свежесозданного контейнера. (по умолчанию == &lt;code&gt;false&lt;/code&gt;)&lt;/li&gt;
-    &lt;li&gt;&lt;code&gt;-i&lt;/code&gt; | &lt;code&gt;--interactive&lt;/code&gt; - запускает контейнер в интерактивном режиме (оставляет STDIN открытым, даже если контейнер запущен в неприкрепленном режиме)&lt;/li&gt;
-    &lt;li&gt;&lt;code&gt;-t&lt;/code&gt; | &lt;code&gt;--tty&lt;/code&gt; - запускает псевдотерминал, часто используется с &lt;code&gt;-i&lt;/code&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;code&gt;-p&lt;/code&gt; | &lt;code&gt;--publish=[]&lt;/code&gt; - пробрасывает порты контейнера в хост. Формат: ip:hostPort:containerPort | ip::containerPort | hostPort:containerPort | containerPort&lt;/li&gt;
-    &lt;li&gt;&lt;code&gt;-e&lt;/code&gt; | &lt;code&gt;--env=[]&lt;/code&gt; - пробрасывает переменные окружения внутрь контейнера.&lt;/li&gt;
-    &lt;li&gt;&lt;code&gt;-v&lt;/code&gt; | &lt;code&gt;--volume=[]&lt;/code&gt; - пробрасывает директорию файловой системы внутрь контейнера&lt;/li&gt;
-  &lt;/ul&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;docker stop КОНТЕЙНЕР&lt;/code&gt; - останавливает контейнер, передавая внутрь SIGTERM, а по истечении таймаута - SIGKILL&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code&gt;docker run ОБРАЗ [КОМАНДА + АРГУМЕНТЫ]&lt;/code&gt; - Запускает выбранный образ в новом контейнере&lt;br/&gt;&lt;strong&gt;Параметры:&lt;/strong&gt;&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;-d&lt;/code&gt; | &lt;code&gt;--detach&lt;/code&gt; - запускает контейнер в фоновом режиме и выводит только id свежесозданного контейнера. (по умолчанию == &lt;code&gt;false&lt;/code&gt;)&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;-i&lt;/code&gt; | &lt;code&gt;--interactive&lt;/code&gt; - запускает контейнер в интерактивном режиме (оставляет STDIN открытым, даже если контейнер запущен в неприкрепленном режиме)&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;-t&lt;/code&gt; | &lt;code&gt;--tty&lt;/code&gt; - запускает псевдотерминал, часто используется с &lt;code&gt;-i&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;-p&lt;/code&gt; | &lt;code&gt;--publish=[]&lt;/code&gt; - пробрасывает порты контейнера в хост. Формат: ip:hostPort:containerPort | ip::containerPort | hostPort:containerPort | containerPort&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;-e&lt;/code&gt; | &lt;code&gt;--env=[]&lt;/code&gt; - пробрасывает переменные окружения внутрь контейнера.&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;-v&lt;/code&gt; | &lt;code&gt;--volume=[]&lt;/code&gt; - пробрасывает директорию файловой системы внутрь контейнера&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;docker stop КОНТЕЙНЕР&lt;/code&gt; - останавливает контейнер, передавая внутрь SIGTERM, а по истечении таймаута - SIGKILL&lt;/p&gt;&lt;/li&gt;
   &lt;li&gt;&lt;code&gt;docker start КОНТЕЙНЕР&lt;/code&gt; - запускает остановленный контейнер.&lt;br/&gt;&lt;strong&gt;Параметры:&lt;/strong&gt;
-  &lt;ul&gt;
-    &lt;li&gt;&lt;code&gt;-i&lt;/code&gt; | &lt;code&gt;--interactive&lt;/code&gt; - аналогично docker run -i&lt;/li&gt;
-  &lt;/ul&gt;&lt;/li&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;-i&lt;/code&gt; | &lt;code&gt;--interactive&lt;/code&gt; - аналогично docker run -i&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
   &lt;li&gt;&lt;code&gt;docker restart КОНТЕЙНЕР&lt;/code&gt; - Перезапускает выбранный контейнер с помощью docker stop и docker start&lt;/li&gt;
   &lt;li&gt;&lt;code&gt;docker kill КОНТЕЙНЕР&lt;/code&gt; - Убивает контейнер, передавая внутрь SIGKILL&lt;/li&gt;
-&lt;/ul&gt;&lt;h3&gt;Управление контейнерами&lt;/h3&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Управление контейнерами&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;code&gt;docker port КОНТЕЙНЕР&lt;/code&gt; - отображает маппинг портов между хостом и контейнером&lt;/li&gt;
   &lt;li&gt;&lt;code&gt;docker ps&lt;/code&gt; - отображает список запущенных контейнеров&lt;br/&gt;&lt;strong&gt;Параметры:&lt;/strong&gt;
-  &lt;ul&gt;
-    &lt;li&gt;&lt;code&gt;-a&lt;/code&gt; | &lt;code&gt;--all=(true|false)&lt;/code&gt; - отображать ли все контейнеры. По умолчанию == &lt;code&gt;false&lt;/code&gt;, т.е. отображаются только запущенные контейнеры&lt;/li&gt;
-    &lt;li&gt;&lt;code&gt;-q&lt;/code&gt; - отображает только ID контейнеров вместо таблицы&lt;/li&gt;
-  &lt;/ul&gt;&lt;/li&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;-a&lt;/code&gt; | &lt;code&gt;--all=(true|false)&lt;/code&gt; - отображать ли все контейнеры. По умолчанию == &lt;code&gt;false&lt;/code&gt;, т.е. отображаются только запущенные контейнеры&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;-q&lt;/code&gt; - отображает только ID контейнеров вместо таблицы&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
   &lt;li&gt;&lt;code&gt;docker rm КОНТЕЙНЕР&lt;/code&gt; - удаляет контейнер. По умолчанию можно удалить только запущенный контейнер.&lt;br/&gt;&lt;strong&gt;Параметры:&lt;/strong&gt;
-  &lt;ul&gt;
-    &lt;li&gt;&lt;code&gt;-f&lt;/code&gt; | &lt;code&gt;--force=(true|false)&lt;/code&gt; - позволяет удалить запущенный контейнер. Используется передача SIGKILL внутрь.&lt;/li&gt;
-  &lt;/ul&gt;&lt;/li&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code&gt;-f&lt;/code&gt; | &lt;code&gt;--force=(true|false)&lt;/code&gt; - позволяет удалить запущенный контейнер. Используется передача SIGKILL внутрь.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
   &lt;li&gt;&lt;code&gt;docker diff&lt;/code&gt; - отображает изменения относительно образа.&lt;/li&gt;
-&lt;/ul&gt;&lt;h3&gt;Синтаксис Dockerfile&lt;/h3&gt;&lt;p&gt;Dockerfile служит скриптом сборки для команды &lt;code&gt;docker build&lt;/code&gt;. Перед началом сборки docker передает сборщику всё содержимое папки с Dockerfile&apos;ом,&lt;br/&gt;поэтому располагать его в корневой директории системы будет не лучшей идеей.&lt;/p&gt;&lt;p&gt;Формат файла:&lt;/p&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Синтаксис Dockerfile&lt;/h3&gt;
+&lt;p&gt;Dockerfile служит скриптом сборки для команды &lt;code&gt;docker build&lt;/code&gt;. Перед началом сборки docker передает сборщику всё содержимое папки с Dockerfile&apos;ом,&lt;br/&gt;поэтому располагать его в корневой директории системы будет не лучшей идеей.&lt;/p&gt;
+&lt;p&gt;Формат файла:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# Комментарий
 ИНСТРУКЦИЯ аргументы
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Первая инструкция обязательно должна быть инструкцией FROM.&lt;/p&gt;&lt;p&gt;Инструкции:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Первая инструкция обязательно должна быть инструкцией FROM.&lt;/p&gt;
+&lt;p&gt;Инструкции:&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;FROM ОБРАЗ&lt;/code&gt; | &lt;code&gt;FROM ОБРАЗ:ТЭГ&lt;/code&gt; - Задает базовый образ для последующих инструкций. Может встречаться несколько раз в одном Dockerfile,&lt;br/&gt;если необходимо собрать несколько образов за раз.&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;MAINTAINER имя&lt;/code&gt; - Позволяет задать поле &lt;em&gt;Author&lt;/em&gt; сгенерированного образа&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;RUN команда&lt;/code&gt; | &lt;code&gt;RUN [&amp;quot;исполняемый файл&amp;quot;, &amp;quot;параметр1&amp;quot;, &amp;quot;параметр2&amp;quot;, ..]&lt;/code&gt; - Запускает команду на основе текущего образа и фиксирует изменения в новом образе. Новый образ будет использован для исполнения последующих инструкций. Первый синтаксис подразумевает запуск команд в стандартной оболочке (bin\sh -c)&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;CMD [&amp;quot;исполняемый файл&amp;quot;, &amp;quot;параметр1&amp;quot;, &amp;quot;параметр2&amp;quot;]&lt;/code&gt; | &lt;code&gt;CMD [&amp;quot;параметр1&amp;quot;, &amp;quot;параметр2&amp;quot;]&lt;/code&gt; | &lt;code&gt;CMD команда параметр1 параметр2&lt;/code&gt; - Предоставляет значения по умолчанию для запуска контейнера. Эти значения могут как включать исполняемый файл (варианты 1, 3), так и не включать его (вариант 2). В последнем случае запускаемая команда&lt;br/&gt;должна быть задана с помощью инструкции &lt;code&gt;ENTRYPOINT&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;EXPOSE порт &amp;lt;порт...&amp;gt;&lt;/code&gt; - Информирует Docker, что контейнер будет прослушивать указанные порты во время исполнения. Docker может использовать эту информацию, чтобы соединять контейнеры между собой используя связи. &lt;code&gt;EXPOSE&lt;/code&gt; сам по себе не делает порт доступным из хостовой системы. Для того, чтобы открыть порты в хостовую систему следует использовать флаг &lt;code&gt;-p&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;ENV ключ значение&lt;/code&gt; - Позволяет задавать переменные окружения. Эти переменные будут использованы при запуске контейнера из собранного образа. Могут быть просмотрены с помощью команды &lt;code&gt;docker inspect&lt;/code&gt;, а также переопределены с помощью флага &lt;code&gt;--env&lt;/code&gt; команды &lt;code&gt;docker run&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;ADD ОТКУДА &amp;lt;ОТКУДА...&amp;gt; КУДА&lt;/code&gt; - Используется для добавления новых файлов, директорий или ссылок на удалённые файлы в файловую систему контейнера. Несколько ОТКУДА может быть передано одновременно, но в этом случае все адреса должны быть относительны для директории, из которой происходит сборка. Каждый вхождение ОТКУДА может содержатьодин или несколько символов подстановки, которые будут разрешены с использование функции языка Go filepath.Match. КУДА должен быть абсолютным путем внутри контейнера.&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;ENTRYPOINT [&amp;quot;исполняемый файл&amp;quot;, &amp;quot;параметр1&amp;quot;, &amp;quot;параметр2&amp;quot;]&lt;/code&gt; | &lt;code&gt;ENTRYPOINT команда параметр1 параметр2&lt;/code&gt; - позволяет сконфигурировать контейнер так, чтобы он запускался как исполняемый файл. В отличии от команды &lt;code&gt;CMD&lt;/code&gt; значение не будет переопределено аргументами, переданными в команду &lt;code&gt;docker run&lt;/code&gt;. Таким образом, аргументы из команды &lt;code&gt;docker run&lt;/code&gt; будут переданы внутрь контейнера, т.е. &lt;code&gt;docker run ОБРАЗ -d&lt;/code&gt; передаст -d исполняемому файлу.&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;VOLUME [ПУТЬ]&lt;/code&gt; - создает точку монтирования с указанным именем и помечает её как содержащую подмонтированные разделы из хостовой системы или других контейнеров. Значение может быть задано как массив JSON, например, &lt;code&gt;VOLUME [&amp;quot;/var/log/&amp;quot;]&lt;/code&gt;, так и как обычной строкой с одним или несколькими аргументами, например &lt;code&gt;VOLUME /var/log&lt;/code&gt; или &lt;code&gt;VOLUME /var/log /var/db&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;USER имя&lt;/code&gt; - позволяет задавать имя пользователя или UID, который будет использован для запуска образа, а так же для любой из инструкций &lt;code&gt;RUN&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;WORKDIR ПУТЬ&lt;/code&gt; - задает рабочую директорию для команд &lt;code&gt;RUN&lt;/code&gt;, &lt;code&gt;CMD&lt;/code&gt; и &lt;code&gt;ENTRYPOINT&lt;/code&gt;. Инструкция может быть использована несколько раз. Если ПУТЬ относителен, то он будет относительным для ПУТИ, заданным предыдущей инструкцией &lt;code&gt;WORKDIR&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;-----------------------------&lt;br/&gt;Образ - image&lt;br/&gt;Контейнер - container&lt;/p&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;FROM ОБРАЗ&lt;/code&gt; | &lt;code&gt;FROM ОБРАЗ:ТЭГ&lt;/code&gt; - Задает базовый образ для последующих инструкций. Может встречаться несколько раз в одном Dockerfile,&lt;br/&gt;если необходимо собрать несколько образов за раз.&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;MAINTAINER имя&lt;/code&gt; - Позволяет задать поле &lt;em&gt;Author&lt;/em&gt; сгенерированного образа&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;RUN команда&lt;/code&gt; | &lt;code&gt;RUN [&amp;quot;исполняемый файл&amp;quot;, &amp;quot;параметр1&amp;quot;, &amp;quot;параметр2&amp;quot;, ..]&lt;/code&gt; - Запускает команду на основе текущего образа и фиксирует изменения в новом образе. Новый образ будет использован для исполнения последующих инструкций. Первый синтаксис подразумевает запуск команд в стандартной оболочке (bin\sh -c)&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;CMD [&amp;quot;исполняемый файл&amp;quot;, &amp;quot;параметр1&amp;quot;, &amp;quot;параметр2&amp;quot;]&lt;/code&gt; | &lt;code&gt;CMD [&amp;quot;параметр1&amp;quot;, &amp;quot;параметр2&amp;quot;]&lt;/code&gt; | &lt;code&gt;CMD команда параметр1 параметр2&lt;/code&gt; - Предоставляет значения по умолчанию для запуска контейнера. Эти значения могут как включать исполняемый файл (варианты 1, 3), так и не включать его (вариант 2). В последнем случае запускаемая команда&lt;br/&gt;должна быть задана с помощью инструкции &lt;code&gt;ENTRYPOINT&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;EXPOSE порт &amp;lt;порт...&amp;gt;&lt;/code&gt; - Информирует Docker, что контейнер будет прослушивать указанные порты во время исполнения. Docker может использовать эту информацию, чтобы соединять контейнеры между собой используя связи. &lt;code&gt;EXPOSE&lt;/code&gt; сам по себе не делает порт доступным из хостовой системы. Для того, чтобы открыть порты в хостовую систему следует использовать флаг &lt;code&gt;-p&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;ENV ключ значение&lt;/code&gt; - Позволяет задавать переменные окружения. Эти переменные будут использованы при запуске контейнера из собранного образа. Могут быть просмотрены с помощью команды &lt;code&gt;docker inspect&lt;/code&gt;, а также переопределены с помощью флага &lt;code&gt;--env&lt;/code&gt; команды &lt;code&gt;docker run&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;ADD ОТКУДА &amp;lt;ОТКУДА...&amp;gt; КУДА&lt;/code&gt; - Используется для добавления новых файлов, директорий или ссылок на удалённые файлы в файловую систему контейнера. Несколько ОТКУДА может быть передано одновременно, но в этом случае все адреса должны быть относительны для директории, из которой происходит сборка. Каждый вхождение ОТКУДА может содержатьодин или несколько символов подстановки, которые будут разрешены с использование функции языка Go filepath.Match. КУДА должен быть абсолютным путем внутри контейнера.&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;ENTRYPOINT [&amp;quot;исполняемый файл&amp;quot;, &amp;quot;параметр1&amp;quot;, &amp;quot;параметр2&amp;quot;]&lt;/code&gt; | &lt;code&gt;ENTRYPOINT команда параметр1 параметр2&lt;/code&gt; - позволяет сконфигурировать контейнер так, чтобы он запускался как исполняемый файл. В отличии от команды &lt;code&gt;CMD&lt;/code&gt; значение не будет переопределено аргументами, переданными в команду &lt;code&gt;docker run&lt;/code&gt;. Таким образом, аргументы из команды &lt;code&gt;docker run&lt;/code&gt; будут переданы внутрь контейнера, т.е. &lt;code&gt;docker run ОБРАЗ -d&lt;/code&gt; передаст -d исполняемому файлу.&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;VOLUME [ПУТЬ]&lt;/code&gt; - создает точку монтирования с указанным именем и помечает её как содержащую подмонтированные разделы из хостовой системы или других контейнеров. Значение может быть задано как массив JSON, например, &lt;code&gt;VOLUME [&amp;quot;/var/log/&amp;quot;]&lt;/code&gt;, так и как обычной строкой с одним или несколькими аргументами, например &lt;code&gt;VOLUME /var/log&lt;/code&gt; или &lt;code&gt;VOLUME /var/log /var/db&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;USER имя&lt;/code&gt; - позволяет задавать имя пользователя или UID, который будет использован для запуска образа, а так же для любой из инструкций &lt;code&gt;RUN&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;WORKDIR ПУТЬ&lt;/code&gt; - задает рабочую директорию для команд &lt;code&gt;RUN&lt;/code&gt;, &lt;code&gt;CMD&lt;/code&gt; и &lt;code&gt;ENTRYPOINT&lt;/code&gt;. Инструкция может быть использована несколько раз. Если ПУТЬ относителен, то он будет относительным для ПУТИ, заданным предыдущей инструкцией &lt;code&gt;WORKDIR&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;-----------------------------&lt;br/&gt;Образ - image&lt;br/&gt;Контейнер - container&lt;/p&gt;
 	</description>
     </item>
     <item>
