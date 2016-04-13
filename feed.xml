@@ -6,13 +6,226 @@
     <atom:link href="http://saladinkzn.github.io//feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Пт, 8 апр 2016 00:33:54 +0300</pubDate>
-    <lastBuildDate>Пт, 8 апр 2016 00:33:54 +0300</lastBuildDate>
+    <pubDate>Thu, 14 Apr 2016 02:14:15 +0300</pubDate>
+    <lastBuildDate>Thu, 14 Apr 2016 02:14:15 +0300</lastBuildDate>
 
+    <item>
+      <title>Docker Compose или мамкин distributed guy</title>
+      <link>http://saladinkzn.github.io//blog/2016/04/docker-compose.html</link>
+      <pubDate>Wed, 13 Apr 2016 00:00:00 +0300</pubDate>
+      <guid isPermaLink="false">blog/2016/04/docker-compose.html</guid>
+      	<description>
+	&lt;h2&gt;Зачем нужно?&lt;/h2&gt;
+&lt;p&gt;Даже самый простой современный сервис состоит из нескольких приложений: как минимум, реверс-прокси, СУБД и самого веб приложения. В последнее время к ним часто стали добавлять Redis для сессий, Solr/Sphinx для поиска и многое другое. Да и само монолитное бизнес-приложение всё чаще разбивают на отдельные сервисы, микро и не очень. Но с большой силой приходит и большая ответственность: каждый новый сервис всё сложнее поддерживать, сложнее развернуть в тестовом окружении.&lt;/p&gt;
+&lt;h2&gt;Решение&lt;/h2&gt;
+&lt;p&gt;Для разворачивания приложений используем &lt;strong&gt;Docker&lt;/strong&gt; - удобное средство для управления контейнерами. С помощью контейнеров больше не придется изучать длинные инструкции по установке СУБД или nginx, можно легко использовать утилиты, написанные на Ruby или Pyhton (и даже не придется использовать virtualenv).&lt;/p&gt;
+&lt;p&gt;Разворачивать в Docker отдельные контейнеры очень просто, но чем больше контейнеров нам нужно для полноценного функционирования нашего приложения, тем сложнее становится процесс запуска системы. Для этого создан &lt;strong&gt;Docker Compose&lt;/strong&gt; - утилита, позволяющая строить новые образы, запускать их в нужном порядке, подключать хранилища, создавать и подключатся к сетям и многое другое.&lt;/p&gt;
+&lt;p&gt;Итак, пускай у нас есть простой Java-сервис. Сейчас я изучаю messaging, поэтому будем использовать &lt;em&gt;Compose&lt;/em&gt; для запуска двух приложений: Publisher и Subscriber, а также сам брокер очередей RabbitMQ.&lt;/p&gt;
+&lt;p&gt;Схема нашего приложения:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;gradle/
+    - wrapper/
+        - gradle-wrapper.jar
+        - gradle-wrapper.properties
+publisher/
+    - src/main/java/...
+    - build.gradle
+    - Dockerfile
+subscriber/
+    - src/main/java/...
+    - build.gradle
+    - Dockerfile
+build.gradle
+docker-compose.yml
+gradlew
+gradlew.bat
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Не буду подробно описывать структуру градлового билда. Там используется application plugin который генерирует tar-архив, со всеми необходимыми библиотеками, а также стартовые скрипты для запуска. Результаты работы этого плагина идеально подходят нам для создания образа нашего приложения.&lt;/p&gt;
+&lt;p&gt;Вот пример Dockerfile для просто java-приложения:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;FROM saladinkzn/debian-java
+RUN mkdir /workdir
+ADD build/distributions/app1.tar /workdir/
+WORKDIR /workdir
+CMD /bin/bash app1/bin/app1
+EXPOSE 8080
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Абсолютно аналогично делаем Dockerfile для второго нашего приложения и переходим к самому главному - файлу настройки Docker Composer: &lt;code&gt;docker-compose.yml&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;version: &amp;#39;2&amp;#39;
+services:
+  # RabbitMQ, используем стандартный библиотечный образ, вытаскиваем наружу стандартный порт 5672, хотя это и не обязательно.
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - &amp;quot;5672:5672&amp;quot;
+    networks:
+      - inner
+  # Наше приложение, строим его с использованием результатов Gradle билда.
+  app1:
+    # Имя образа, которое будет присвоено построенному образу
+    image: app1
+    # Контекст для docker build
+    build: ./app1
+    # Пробрасываем порты из контейнера наружу
+    ports:
+      - &amp;quot;8081:8080&amp;quot;
+    # Присоединяемся к внутренней сети
+    networks:
+      - inner
+    # Говорим Compose, что наш контейнер нужно запускать после образа с брокером очередей.
+    depends_on:
+      - rabbitmq
+  app2:
+    image: app2
+    build: ./app2
+    ports:
+      - &amp;quot;8082:8080&amp;quot;
+    networks:
+      - inner
+    depends_on:
+      - rabbitmq
+networks:
+  inner:
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Тудушечки&lt;/h2&gt;
+&lt;p&gt;Неплохо было бы создать отдельный режим для запуска приложения в режиме для разработки (с запущенным дебаг режимом и проброшенным портом для удаленной отладки).&lt;/p&gt;
+&lt;h2&gt;Использованная литература&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.docker.com/engine/reference/builder/&quot;&gt;Доки по Dockerfile&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.docker.com/compose/compose-file/&quot;&gt;Доки по docker-compose.yml&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+	</description>
+    </item>
+    <item>
+      <title>Docker+Consul+Nginx, используем Service Discovery для конфигурирования Reverse Proxy</title>
+      <link>http://saladinkzn.github.io//blog/2016/04/nginx-consul.html</link>
+      <pubDate>Wed, 6 Apr 2016 00:00:00 +0300</pubDate>
+      <guid isPermaLink="false">blog/2016/04/nginx-consul.html</guid>
+      	<description>
+	&lt;h1&gt;Зачем это вообще нужно?&lt;/h1&gt;
+&lt;p&gt;Изведав Service Discovery в действии на примере Solr Cloud, я возжелал использовать этот подход как можно шире.&lt;br/&gt;Что может быть лучше, чем возможность просто добавить еще один сервер, а он уже сам заберёт настройки из хранилища,&lt;br/&gt;узнает об остальных запущенных серверах и т.д.&lt;/p&gt;
+&lt;p&gt;Solr использует для Service Discovery Zookeeper, что и понятно: Zookeeper, как и Solr являются проектами инкубатора&lt;br/&gt;Apache. Но, если уж начистоту, то Zookeeper достаточно сложное для использования хранилище: Service Discovery, например,&lt;br/&gt;для него приходится реализовывать самостоятельно. Существует специальный проект Curator, который реализует основные&lt;br/&gt;шаблоны работы с Zookeeper.&lt;/p&gt;
+&lt;p&gt;Поисследовав немного существующие проекты, я пришел к выводу что самым удачным для моих задач является &lt;a href=&quot;Consul&quot;&gt;http://consul.io&lt;/a&gt;.&lt;br/&gt;Наиболее интересным фишками Consul является:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Возможность запуска consul-агентов на каждой машине вашей инфраструктуры. Это позволяет вашим сервисам всегда обращаться&lt;br/&gt; к Consul по заранее известному адресу, соответственно, не нужно конфигурировать адрес Consul (в случае использования&lt;br/&gt; Zookeeper необходимо указывать все хосты, на которых расположен ваш Ensemble Zookeeper&apos;а).&lt;/li&gt;
+  &lt;li&gt;Consul позволяет легко регистрировать даже те сервисы, которые не умеют с ним интегрироваться. Для этого consul-agent&lt;br/&gt; может быть сконфигурирован соответствующим образом, что при старте он будет регистрировать заданные сервисы, а также HealthCheck для них. (С Zookeeper для этого придется использовать некое приложение, которое будет держать эфемерный&lt;br/&gt; узел в соответствующем узле дерева Zookeeper).&lt;/li&gt;
+  &lt;li&gt;Consul позволяет использовать health сheck, при этом он может следить за нагрузкой на IO, объемом потребляемой памяти,&lt;br/&gt;нагрузкой на центральный процессор, опрашивать определенный HTTP endpoint и многое другое.&lt;/li&gt;
+  &lt;li&gt;Для работы с Consul используется человекочитаемое REST API.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;Как мы будем использовать Consul?&lt;/h1&gt;
+&lt;p&gt;В данной статье мы будем использовать Consul для автоматической регистрации различных сервисов в реверс-прокси (Nginx). Nginx не поддерживает интеграцию с Consul из коробки, поэтому мы будем использовать подход с генерацией конфигурационного файла и вызова nginx reload.&lt;/p&gt;
+&lt;p&gt;Для того чтобы сгенерировать конфигурационный файл, нам нужен какой-нибудь инструмент, который бы смог получать нужные данные из консула. Вообще, так как нам доступен Rest API, мы бы могли грузить информацию о зарегистрированных сервисах с помощью простого python-скрипта. Но лучше не городить велосипеды, а воспользоваться решением от авторов Consul: consul-template.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;consul-template&lt;/strong&gt; - аналог confd, но нативно поддерживающий Service Discovery Consul. Позволяет как сгенерировать конфиграционный файл однажды, так и следить за изменениям в выбранном сервисе и автоматически перегенерировать файл в случае изменений.&lt;/p&gt;
+&lt;h1&gt;Поднимаем всё в Docker.&lt;/h1&gt;
+&lt;p&gt;Строить инфраструктуру мы будем на основе Docker. Это позволит нам не возиться с установкой каждого сервиса в отдельности, получить готовое решение, которое можно будет легко развернуть как на одном, так и на нескольких серверах.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;
+  &lt;p&gt;
+  &lt;p&gt;Consul&lt;br/&gt;Для Consul мы будем использовать готовый образ: &lt;code&gt;gliderlabs/consul-server&lt;/code&gt;.&lt;br/&gt;Запустим его с помощью команды&lt;/p&gt;
+  &lt;pre&gt;&lt;code&gt;docker -d -p 8500:8500 --net consul gliderlabs/consul-server --bootstrap
+&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;Зарегистрируем наш сервис с помощью REST API&lt;/p&gt;
+  &lt;pre&gt;&lt;code&gt;curl -X PUT &amp;#39;http://localhost:8500/v1/agent/service/register --data &amp;#39;{ &amp;quot;ID&amp;quot;: &amp;quot;jenkins&amp;quot;, &amp;quot;Name&amp;quot;: &amp;quot;web&amp;quot;, &amp;quot;Address&amp;quot;: &amp;quot;jenkins&amp;quot;, &amp;quot;Port&amp;quot;: 8080
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Создадим образ с использованием nginx и consul-template&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;Dockerfile:&lt;/p&gt;
+        &lt;pre&gt;&lt;code&gt;FROM debian:jessie
+MAINTAINER sala
+
+# Устанавливаем  nginx, curl и unzip
+RUN apt-get update &amp;amp;&amp;amp; apt-get install curl unzip nginx -y
+# Скачиваем consul-template, распаковываем, готовим папку для шаблончиков
+RUN curl -L https://releases.hashicorp.com/consul-template/0.14.0/consul-template_0.14.0_linux_amd64.zip -o consul-template.zip &amp;amp;&amp;amp; \
+ unzip consul-template.zip -d /usr/local/bin &amp;amp;&amp;amp; \
+ cd /usr/local/bin &amp;amp;&amp;amp; \
+ chmod +x consul-template &amp;amp;&amp;amp; \
+ mkdir -p /etc/consul-template/templates
+# Публикуем стандартные порты для http и https
+EXPOSE 80
+EXPOSE 443
+# Добавляем шаблон, конфигурационный файл nginx и скрипт запуска
+ADD templates/ /etc/consul-template/templates
+ADD nginx.conf /etc/nginx/nginx.conf
+ADD scripts/start.sh .
+CMD ./start.sh
+&lt;/code&gt;&lt;/pre&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;templates/nginx.ctmpl&lt;/p&gt;
+        &lt;pre&gt;&lt;code&gt;{{range service &amp;quot;web&amp;quot;}}
+server {
+    server_name {{.ID}}.shadam.ru;
+    location / {
+        proxy_pass http://{{.Address}}:{{.Port}};
+        proxy_connect_timeout 90;
+        proxy_send_timeout 90;
+        proxy_read_timeout 90;
+
+        proxy_buffers                   8 64k;
+        proxy_buffer_size               64k;
+        proxy_busy_buffers_size         64k;
+        proxy_temp_file_write_size      10m;
+
+        proxy_set_header        Host            $http_host;
+        #proxy_set_header       Host            $host;
+        proxy_set_header        Referer         $http_referer;
+        proxy_set_header        User-Agent      $http_user_agent;proxy_redirect off;
+        proxy_set_header        X-Real-IP       $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto       $scheme;
+
+        client_max_body_size    64m;
+        client_body_buffer_size 1m;
+    }
+}
+
+{{end}}
+&lt;/code&gt;&lt;/pre&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;scripts/start.sh&lt;/p&gt;
+        &lt;pre&gt;&lt;code&gt;#!/bin/bash
+
+set -eo pipefail
+
+export CONSUL_PORT=${CONSUL_PORT:-8500}
+export HOST_IP=${HOST_IP:-consul}
+export CONSUL=$HOST_IP:$CONSUL_PORT
+
+echo &amp;quot;[nginx] booting container. CONSUL: $CONSUL.&amp;quot;
+
+# Try to make initial configuration every 5 seconds until successful
+consul-template -once -retry 5s -consul $CONSUL -template &amp;quot;/etc/consul-template/templates/nginx.ctmpl:/etc/nginx/conf.d/consul-template.conf&amp;quot;
+
+# Put a continual polling `confd` process into the background to watch
+# for changes every 10 seconds
+consul-template  -consul $CONSUL -template &amp;quot;/etc/consul-template/templates/nginx.ctmpl:/etc/nginx/conf.d/consul-template.conf:service nginx reload&amp;quot; &amp;amp;
+echo &amp;quot;[nginx] consul-template is now monitoring consul for changes...&amp;quot;
+
+# Start the Nginx service using the generated config
+echo &amp;quot;[nginx] starting nginx ...&amp;quot;
+nginx
+&lt;/code&gt;&lt;/pre&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Теперь мы можем построить наш образ с помощью команды&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    docker build -t saladinkzn/nginx-consul-template .
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;После того как мы построили образ, мы можем его запустить.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    docker run -d -p 80:80 --net consul saladinkzn/nginx-consul-template
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ура! Теперь у нас есть работающий Nginx, который автоматические создает дополнительные записи в своем конфиге для каждого добавленного сервиса.&lt;/p&gt;
+&lt;p&gt;Что нам это дает? Возможность 1 раз сконфигурировать данную подсистему и далее легко устанавливать дополнительные сервисы, автоматически получая сконфигурированный Nginx.&lt;/p&gt;
+	</description>
+    </item>
     <item>
       <title>Шпаргалка Docker</title>
       <link>http://saladinkzn.github.io//blog/2014/docker-cheetsheet.html</link>
-      <pubDate>Ср, 22 окт 2014 00:00:00 +0400</pubDate>
+      <pubDate>Wed, 22 Oct 2014 00:00:00 +0400</pubDate>
       <guid isPermaLink="false">blog/2014/docker-cheetsheet.html</guid>
       	<description>
 	&lt;h3&gt;Создание образа&lt;/h3&gt;
@@ -120,7 +333,7 @@
     <item>
       <title>Шпаргалка GIT</title>
       <link>http://saladinkzn.github.io//blog/2014/first-post.html</link>
-      <pubDate>Вт, 14 окт 2014 00:00:00 +0400</pubDate>
+      <pubDate>Tue, 14 Oct 2014 00:00:00 +0400</pubDate>
       <guid isPermaLink="false">blog/2014/first-post.html</guid>
       	<description>
 	

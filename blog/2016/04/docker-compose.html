@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Docker Compose или мамкин distributed guy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="generator" content="JBake">
+
+    <!-- Le styles -->
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/asciidoctor.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link href="../../../css/prettify.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+    <link rel="shortcut icon" href="../../../favicon.ico">
+</head>
+<body onload="prettyPrint()">
+<div id="wrap">
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../../../">Sala Blog</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="../../../index.html">Home</a></li>
+                <li><a href="../../../about.html">About</a></li>
+                <li><a href="../../../feed.xml">Subscribe</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>    <div class="container">
+    <div class="page-header">
+        <h1>Docker Compose или мамкин distributed guy</h1>
+    </div>
+
+    <p><em>13 April 2016</em></p>
+
+    <p><h2>Зачем нужно?</h2>
+<p>Даже самый простой современный сервис состоит из нескольких приложений: как минимум, реверс-прокси, СУБД и самого веб приложения. В последнее время к ним часто стали добавлять Redis для сессий, Solr/Sphinx для поиска и многое другое. Да и само монолитное бизнес-приложение всё чаще разбивают на отдельные сервисы, микро и не очень. Но с большой силой приходит и большая ответственность: каждый новый сервис всё сложнее поддерживать, сложнее развернуть в тестовом окружении.</p>
+<h2>Решение</h2>
+<p>Для разворачивания приложений используем <strong>Docker</strong> - удобное средство для управления контейнерами. С помощью контейнеров больше не придется изучать длинные инструкции по установке СУБД или nginx, можно легко использовать утилиты, написанные на Ruby или Pyhton (и даже не придется использовать virtualenv).</p>
+<p>Разворачивать в Docker отдельные контейнеры очень просто, но чем больше контейнеров нам нужно для полноценного функционирования нашего приложения, тем сложнее становится процесс запуска системы. Для этого создан <strong>Docker Compose</strong> - утилита, позволяющая строить новые образы, запускать их в нужном порядке, подключать хранилища, создавать и подключатся к сетям и многое другое.</p>
+<p>Итак, пускай у нас есть простой Java-сервис. Сейчас я изучаю messaging, поэтому будем использовать <em>Compose</em> для запуска двух приложений: Publisher и Subscriber, а также сам брокер очередей RabbitMQ.</p>
+<p>Схема нашего приложения:</p>
+<pre><code>gradle/
+    - wrapper/
+        - gradle-wrapper.jar
+        - gradle-wrapper.properties
+publisher/
+    - src/main/java/...
+    - build.gradle
+    - Dockerfile
+subscriber/
+    - src/main/java/...
+    - build.gradle
+    - Dockerfile
+build.gradle
+docker-compose.yml
+gradlew
+gradlew.bat
+</code></pre>
+<p>Не буду подробно описывать структуру градлового билда. Там используется application plugin который генерирует tar-архив, со всеми необходимыми библиотеками, а также стартовые скрипты для запуска. Результаты работы этого плагина идеально подходят нам для создания образа нашего приложения.</p>
+<p>Вот пример Dockerfile для просто java-приложения:</p>
+<pre><code>FROM saladinkzn/debian-java
+RUN mkdir /workdir
+ADD build/distributions/app1.tar /workdir/
+WORKDIR /workdir
+CMD /bin/bash app1/bin/app1
+EXPOSE 8080
+</code></pre>
+<p>Абсолютно аналогично делаем Dockerfile для второго нашего приложения и переходим к самому главному - файлу настройки Docker Composer: <code>docker-compose.yml</code>.</p>
+<pre><code>version: &#39;2&#39;
+services:
+  # RabbitMQ, используем стандартный библиотечный образ, вытаскиваем наружу стандартный порт 5672, хотя это и не обязательно.
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - &quot;5672:5672&quot;
+    networks:
+      - inner
+  # Наше приложение, строим его с использованием результатов Gradle билда.
+  app1:
+    # Имя образа, которое будет присвоено построенному образу
+    image: app1
+    # Контекст для docker build
+    build: ./app1
+    # Пробрасываем порты из контейнера наружу
+    ports:
+      - &quot;8081:8080&quot;
+    # Присоединяемся к внутренней сети
+    networks:
+      - inner
+    # Говорим Compose, что наш контейнер нужно запускать после образа с брокером очередей.
+    depends_on:
+      - rabbitmq
+  app2:
+    image: app2
+    build: ./app2
+    ports:
+      - &quot;8082:8080&quot;
+    networks:
+      - inner
+    depends_on:
+      - rabbitmq
+networks:
+  inner:
+</code></pre>
+<h2>Тудушечки</h2>
+<p>Неплохо было бы создать отдельный режим для запуска приложения в режиме для разработки (с запущенным дебаг режимом и проброшенным портом для удаленной отладки).</p>
+<h2>Использованная литература</h2>
+<ul>
+  <li><a href="https://docs.docker.com/engine/reference/builder/">Доки по Dockerfile</a></li>
+  <li><a href="https://docs.docker.com/compose/compose-file/">Доки по docker-compose.yml</a></li>
+</ul></p>
+
+    <hr />
+    </div>
+    <div id="push"></div>
+</div>
+
+<div id="footer">
+    <div class="container">
+        <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.0</a></p>
+    </div>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../../../js/jquery-1.11.1.min.js"></script>
+<script src="../../../js/bootstrap.min.js"></script>
+<script src="../../../js/prettify.js"></script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter36590025 = new Ya.Metrika({
+                    id:36590025,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/36590025" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</body>
+</html>
